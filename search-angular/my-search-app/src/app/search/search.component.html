@@ -1,0 +1,43 @@
+<div class="main-container">
+  <div class="search-container">
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (input)="filterResults()"
+          placeholder="Buscar"
+        />
+      </mat-form-field>
+    </div>
+    <div class="search-tips" *ngIf="searchTerm === ''">
+      <p><strong>Encuentra recursos esenciales en tecnología web</strong></p>
+      <p>
+        Explora los artículos sobre programación web y tecnologías emergentes.
+        Encuentra tutoriales, guías y consejos sobre HTML, CSS, JavaScript,
+        React, Angular, Node.js, y más.
+      </p>
+    </div>
+    <div class="search-tips" *ngIf="searchTerm !== '' && filteredResults.length === 0">
+      <p>No se ha encontrado ningún resultado</p>
+    </div>
+    <mat-nav-list *ngIf="filteredResults.length > 0">
+      <ng-container *ngFor="let result of filteredResults; let last = last">
+        <mat-list-item
+          (click)="selectResult(result)"
+          [class.selected]="result === selectedResult"
+        >
+          <div class="list-item-content">
+            <i class="fa-solid mat-icon me-2" [ngClass]="result.icon"></i>
+            <div class="list-item-text">
+              <div class="result-title">{{ result.title }}</div>
+              <div class="result-subtitle">{{ result.link }}</div>
+            </div>
+          </div>
+        </mat-list-item>
+        <mat-divider *ngIf="!last"></mat-divider>
+      </ng-container>
+    </mat-nav-list>
+  </div>
+</div>

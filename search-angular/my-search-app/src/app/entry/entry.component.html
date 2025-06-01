@@ -1,0 +1,57 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="entry-container">
+    <h2>Añadir Nuevo Elemento</h2>
+    <form (ngSubmit)="addEntry()">
+      <div class="form-group">
+        <label for="title">Nombre del Elemento (máx. 50 caracteres)</label>
+        <input
+          id="title"
+          [(ngModel)]="newEntry.title"
+          name="title"
+          class="form-control"
+          placeholder="Ejemplo: Página Principal"
+          maxlength="50"
+          required
+          pattern="^[a-zA-Z\s]*$"
+          (input)="restrictTextLength($event)"
+        >
+        <small class="form-text text-muted">Introduce un nombre descriptivo y único para este elemento.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="icon">Selecciona un Icono</label>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="iconDropdown" (click)="toggleDropdown()">
+            <i *ngIf="selectedIcon" class="fa-solid me-2" [ngClass]="selectedIcon.class"></i>
+            <span *ngIf="selectedIcon">{{ selectedIcon.name }}</span>
+            <span *ngIf="!selectedIcon">Elige un icono</span>
+          </button>
+          <ul class="dropdown-menu" [ngClass]="{'show': dropdownOpen}">
+            <li *ngFor="let icon of icons" class="dropdown-item" (click)="selectIcon(icon)">
+              <i class="fa-solid me-2" [ngClass]="icon.class"></i> {{ icon.name }}
+            </li>
+          </ul>
+        </div>
+        <small class="form-text text-muted">Selecciona un icono que represente mejor tu entrada.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="link">Introduce un Enlace Válido</label>
+        <input
+          id="link"
+          [(ngModel)]="newEntry.link"
+          name="link"
+          class="form-control"
+          placeholder="https://www.ejemplo.com"
+          required
+          pattern="https?://.+"
+        >
+        <small class="form-text text-muted">Por favor, proporciona un enlace válido empezando con "http://" o "https://".</small>
+      </div>
+
+      <div class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</div> <!-- Mensaje de error -->
+
+      <button type="submit" class="btn btn-dark">Guardar</button>
+    </form>
+  </div>
+</div>
